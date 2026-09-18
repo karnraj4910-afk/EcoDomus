@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <title>EcoDomus | Local Asset Optimizer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0f172a; }
+    textarea { tab-size: 2; }
+    .editor-grid {
+      background-color: #111827;
+      background-image: linear-gradient(to right, transparent 3.5rem, rgba(71, 85, 105, .28) 3.5rem, rgba(71, 85, 105, .28) calc(3.5rem + 1px), transparent calc(3.5rem + 1px));
+    }
+    .editor-grid:focus-within { border-color: #10b981; }
+    .metric-card { min-height: 6rem; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-100 antialiased">
+  <div class="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
+    <header class="border-b border-slate-700 pb-6">
+      <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p class="mb-2 text-xs font-semibold tracking-[0.28em] text-emerald-400">LOCAL WEB ASSET &amp; CARBON OPTIMIZER</p>
+          <h1 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">ECODOMUS</h1>
+          <p class="mt-2 max-w-xl text-sm text-slate-400">Reduce transfer weight, measure the difference, and keep every optimization on your device.</p>
+        </div>
+        <div class="flex flex-col gap-3 text-sm lg:items-end">
+          <span class="inline-flex items-center gap-2 text-slate-300"><span class="h-2 w-2 rounded-full bg-emerald-500"></span>v1.0.4 (Offline/Local Execution)</span>
+          <span class="border border-slate-700 bg-slate-800 px-3 py-2 text-xs font-medium text-slate-300">Privacy Guaranteed: Zero Server Uploads</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section aria-label="Asset controls" class="flex flex-col gap-4 border-b border-slate-700 py-5 xl:flex-row xl:items-center xl:justify-between">
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="flex border border-slate-700 bg-slate-800 p-1" role="tablist" aria-label="Asset type">
+            <button class="asset-tab bg-emerald-700 px-4 py-2 text-sm font-semibold text-white" data-language="HTML" role="tab" aria-selected="true">HTML</button>
+            <button class="asset-tab px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white" data-language="CSS" role="tab" aria-selected="false">CSS</button>
+            <button class="asset-tab px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white" data-language="JS" role="tab" aria-selected="false">JavaScript</button>
+          </div>
+          <button id="btn-sample" class="border border-slate-600 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-700">Load Sample Bloated Code</button>
+          <label class="cursor-pointer border border-slate-600 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:border-slate-500 hover:bg-slate-700">
+            Load File
+            <input id="file-input" type="file" accept=".html,.htm,.css,.js,.mjs,.txt" class="sr-only">
+          </label>
+        </div>
+        <label class="flex items-center gap-3 text-sm text-slate-400" for="select-views">
+          Estimated Views for Projection
+          <select id="select-views" class="border border-slate-600 bg-slate-800 px-3 py-2 font-medium text-slate-100 outline-none focus:border-emerald-500">
+            <option value="1000">1,000</option>
+            <option value="10000" selected>10,000</option>
+            <option value="100000">100,000</option>
+            <option value="1000000">1,000,000</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="grid gap-5 py-5 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]">
+        <div class="flex min-h-[30rem] flex-col border border-slate-700 bg-slate-800">
+          <div class="flex items-center justify-between border-b border-slate-700 px-4 py-3">
+            <h2 class="text-xs font-bold tracking-[0.18em] text-slate-300">SOURCE CODE (INPUT)</h2>
+            <span id="source-type" class="text-xs font-medium text-emerald-400">HTML</span>
+          </div>
+          <textarea id="input-code" spellcheck="false" aria-label="Source code input" placeholder="Paste HTML, CSS, or JavaScript here..." class="editor-grid min-h-[26rem] flex-1 resize-none border-0 p-4 pl-16 font-mono text-sm leading-6 text-slate-200 outline-none placeholder:text-slate-600"></textarea>
+          <div class="flex items-center justify-between border-t border-slate-700 px-4 py-2 text-xs text-slate-500">
+            <span id="input-status">Ready for local processing</span>
+            <span id="input-size">0 B</span>
+          </div>
+        </div>
+
+        <div class="flex min-h-[30rem] flex-col gap-5">
+          <section aria-label="Impact dashboard" class="border border-slate-700 bg-slate-800 p-4">
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="text-xs font-bold tracking-[0.18em] text-slate-300">IMPACT DASHBOARD</h2>
+              <span class="text-xs text-slate-500">Per selected projection</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3 sm:grid-cols-5">
+              <div class="metric-card border border-slate-700 bg-slate-900 p-3"><p class="text-[10px] uppercase tracking-wide text-slate-500">Original Size</p><p id="metric-orig" class="mt-2 text-lg font-semibold text-white">0 B</p></div>
+              <div class="metric-card border border-slate-700 bg-slate-900 p-3"><p class="text-[10px] uppercase tracking-wide text-slate-500">Optimized Size</p><p id="metric-opt" class="mt-2 text-lg font-semibold text-white">0 B</p></div>
+              <div class="metric-card border border-slate-700 bg-slate-900 p-3"><p class="text-[10px] uppercase tracking-wide text-slate-500">Data Saved</p><p id="metric-saved" class="mt-2 text-lg font-semibold text-emerald-400">0 B (0.0%)</p></div>
+              <div class="metric-card border border-slate-700 bg-slate-900 p-3"><p class="text-[10px] uppercase tracking-wide text-slate-500">Est. Energy Saved</p><p id="metric-energy" class="mt-2 text-lg font-semibold text-white">0.000 kWh</p></div>
+              <div class="metric-card col-span-2 border border-slate-700 bg-slate-900 p-3 sm:col-span-1"><p class="text-[10px] uppercase tracking-wide text-slate-500">Est. Carbon Avoided</p><p id="metric-carbon" class="mt-2 text-lg font-semibold text-white">0.00 gCO2e</p></div>
+            </div>
+          </section>
+
+          <section class="flex flex-1 flex-col border border-slate-700 bg-slate-800">
+            <div class="flex items-center justify-between border-b border-slate-700 px-4 py-3">
+              <h2 class="text-xs font-bold tracking-[0.18em] text-slate-300">OPTIMIZED OUTPUT (.MIN)</h2>
+              <span id="output-size" class="text-xs text-slate-500">0 B</span>
+            </div>
+            <div id="error-banner" class="hidden border-b border-red-700 bg-red-950/80 px-4 py-3 text-sm text-red-200" role="alert" aria-live="polite"></div>
+            <textarea id="output-code" readonly spellcheck="false" aria-label="Optimized output" class="min-h-[18rem] flex-1 resize-none bg-slate-900 p-4 font-mono text-sm leading-6 text-emerald-100 outline-none"></textarea>
+            <div class="flex flex-wrap items-center gap-2 border-t border-slate-700 p-3">
+              <button id="btn-copy" disabled class="border border-slate-600 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40">Copy to Clipboard</button>
+              <button id="btn-download" disabled class="border border-slate-600 bg-slate-800 px-4 py-2 text-sm font-semibold text-slate-300 transition hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40">Download .min File</button>
+              <span id="toast" role="status" class="ml-auto text-xs text-slate-400"></span>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <footer class="flex flex-col items-center gap-3 border-t border-slate-700 py-5">
+        <button id="btn-optimize" disabled class="w-full max-w-md bg-emerald-700 px-6 py-3 text-sm font-bold tracking-[0.16em] text-white transition hover:bg-emerald-600 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-500">OPTIMIZE ASSET</button>
+        <p id="status-message" class="min-h-5 text-center text-sm text-slate-400"></p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    let activeLanguage = 'HTML';
+    let lastOutput = '';
+
+    const inputCode = document.getElementById('input-code');
+    const outputCode = document.getElementById('output-code');
+    const optimizeButton = document.getElementById('btn-optimize');
+    const copyButton = document.getElementById('btn-copy');
+    const downloadButton = document.getElementById('btn-download');
+    const toast = document.getElementById('toast');
+    const statusMessage = document.getElementById('status-message');
+    const errorBanner = document.getElementById('error-banner');
+
+    const getByteSize = (str) => new Blob([str]).size;
+
+    function validateCodeLanguage(code, selectedLang) {
+      const trimmed = code.trim();
+      if (!trimmed) return { valid: true, detected: null, message: '' };
+
+      const hasHtml = /<[a-z][\s\S]*>/i.test(trimmed);
+      const hasCss = /([.#]?[a-zA-Z0-9_-]+\s*\{[\s\S]*?\})|(@media|@keyframes)/.test(trimmed);
+      const hasJs = /\b(function|const|let|var|return|console\.log|if|else|import|export|class|document|window)\b/.test(trimmed) || /=>/.test(trimmed);
+
+      if (selectedLang === 'HTML') {
+        if (!hasHtml && (hasCss || hasJs)) {
+          return {
+            valid: false,
+            detected: hasJs ? 'JavaScript' : 'CSS',
+            message: `Syntax Error: You selected HTML, but the code appears to be ${hasJs ? 'JavaScript' : 'CSS'}.`
+          };
+        }
+      }
+
+      if (selectedLang === 'CSS') {
+        if (hasHtml) {
+          return { valid: false, detected: 'HTML', message: 'Syntax Error: You selected CSS, but HTML tags were detected.' };
+        }
+        if (hasJs) {
+          return { valid: false, detected: 'JavaScript', message: 'Syntax Error: You selected CSS, but JavaScript code was detected.' };
+        }
+        if (!hasCss) {
+          return { valid: false, detected: 'Invalid CSS', message: 'Syntax Error: Invalid CSS syntax. Property rules must be wrapped in selector blocks { ... }.' };
+        }
+      }
+
+      if (selectedLang === 'JS') {
+        if (hasHtml) {
+          return { valid: false, detected: 'HTML', message: 'Syntax Error: You selected JavaScript, but HTML tags were detected.' };
+        }
+        if (hasCss && !hasJs) {
+          return { valid: false, detected: 'CSS', message: 'Syntax Error: You selected JavaScript, but CSS stylesheet rules were detected.' };
+        }
+      }
+
+      return { valid: true, detected: null, message: '' };
+    }
+
+    function showErrorBanner(message) {
+      errorBanner.textContent = message;
+      errorBanner.classList.remove('hidden');
+    }
+
+    function hideErrorBanner() {
+      errorBanner.textContent = '';
+      errorBanner.classList.add('hidden');
+    }
+
+    function minifyHTML(code) {
+      return code.replace(/\x3C!--[\s\S]*?-->/g, '').replace(/\s+/g, ' ').replace(/>\s+</g, '><').trim();
+    }
+
+    function minifyCSS(code) {
+      return code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{}:;,])\s*/g, '$1').replace(/;}/g, '}').trim();
+    }
+
+    function minifyJS(code) {
+      return code.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '').replace(/\s+/g, ' ').replace(/\s*([={}();,])\s*/g, '$1').trim();
+    }
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return `${bytes} B`;
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+      return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+    }
+
+    function setToast(message, tone = 'muted') {
+      toast.textContent = message;
+      toast.className = `ml-auto text-xs ${tone === 'warning' ? 'text-amber-400' : tone === 'success' ? 'text-emerald-400' : 'text-slate-400'}`;
+    }
+
+    function updateInputState() {
+      const bytes = getByteSize(inputCode.value);
+      document.getElementById('input-size').textContent = formatBytes(bytes);
+      optimizeButton.disabled = inputCode.value.trim().length === 0;
+      if (bytes > 2 * 1024 * 1024) {
+        document.getElementById('input-status').textContent = 'Large file: processing may briefly pause the tab';
+        document.getElementById('input-status').className = 'text-amber-400';
+      } else {
+        document.getElementById('input-status').textContent = 'Ready for local processing';
+        document.getElementById('input-status').className = 'text-slate-500';
+      }
+    }
+
+    function resetOutput() {
+      outputCode.value = '';
+      lastOutput = '';
+      copyButton.disabled = true;
+      downloadButton.disabled = true;
+      document.getElementById('output-size').textContent = '0 B';
+      document.getElementById('metric-orig').textContent = '0 B';
+      document.getElementById('metric-opt').textContent = '0 B';
+      document.getElementById('metric-saved').textContent = '0 B (0.0%)';
+      document.getElementById('metric-energy').textContent = '0.000 kWh';
+      document.getElementById('metric-carbon').textContent = '0.00 gCO2e';
+    }
+
+    function optimizeAsset() {
+      const rawCode = inputCode.value;
+      if (!rawCode.trim()) {
+        setToast('Please paste code or load a sample first.', 'warning');
+        statusMessage.textContent = 'Please paste code or load a sample first.';
+        statusMessage.className = 'min-h-5 text-center text-sm text-amber-400';
+        return;
+      }
+
+      const validation = validateCodeLanguage(rawCode, activeLanguage);
+      if (!validation.valid) {
+        showErrorBanner(validation.message || `Language mismatch detected: content appears to be ${validation.detected || 'another language'} instead of ${activeLanguage}.`);
+        statusMessage.textContent = 'Validation failed: content does not match the active language tab.';
+        statusMessage.className = 'min-h-5 text-center text-sm text-red-400';
+        setToast('Mismatch detected', 'warning');
+        return;
+      }
+      hideErrorBanner();
+
+      const minifiers = { HTML: minifyHTML, CSS: minifyCSS, JS: minifyJS };
+      const minifiedCode = minifiers[activeLanguage](rawCode);
+      const origBytes = getByteSize(rawCode);
+      const optBytes = getByteSize(minifiedCode);
+      const savedBytes = Math.max(0, origBytes - optBytes);
+      const savedPct = origBytes > 0 ? ((savedBytes / origBytes) * 100).toFixed(1) : '0.0';
+      const views = parseInt(document.getElementById('select-views').value, 10);
+      const savedGB = savedBytes / (1024 * 1024 * 1024);
+      const energyKwh = (savedGB * 0.2 * views).toFixed(3);
+      const carbonGrams = (energyKwh * 442).toFixed(2);
+
+      outputCode.value = minifiedCode;
+      lastOutput = minifiedCode;
+      copyButton.disabled = minifiedCode.length === 0;
+      downloadButton.disabled = minifiedCode.length === 0;
+      document.getElementById('output-size').textContent = formatBytes(optBytes);
+      document.getElementById('metric-orig').textContent = formatBytes(origBytes);
+      document.getElementById('metric-opt').textContent = formatBytes(optBytes);
+      document.getElementById('metric-saved').textContent = `${formatBytes(savedBytes)} (${savedPct}%)`;
+      document.getElementById('metric-energy').textContent = `${energyKwh} kWh`;
+      document.getElementById('metric-carbon').textContent = `${carbonGrams} gCO2e`;
+      if (savedBytes === 0) {
+        statusMessage.textContent = 'Code is already fully optimized! 0% bloat detected.';
+        statusMessage.className = 'min-h-5 text-center text-sm text-slate-300';
+      } else {
+        statusMessage.textContent = `Optimization complete: ${savedPct}% of source bytes removed locally.`;
+        statusMessage.className = 'min-h-5 text-center text-sm text-emerald-400';
+      }
+      setToast('Updated locally');
+    }
+
+    function loadSample() {
+      const samples = {
+        HTML: `<!-- EcoDomus sample page -->\n<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <!-- Metadata comment -->\n    <meta charset="UTF-8">\n    <title>  Sustainable Home  </title>\n  </head>\n  <body>\n    <main class="page-content">\n      <h1>EcoDomus</h1>\n      <p>  Efficient websites use less energy.  </p>\n    </main>\n  </body>\n</html>`,
+        CSS: `/* Main layout styles */\n.page-content {\n  display: flex;\n  padding: 24px 24px 24px 24px;\n  color: #0f172a;\n}\n\n.page-content h1 {\n  margin: 0 0 16px 0;\n}`,
+        JS: `/* Local sample logic */\nfunction showMessage(message) {\n  // Render a status update\n  const output = document.getElementById("status");\n  output.textContent = message;\n  console.log("Status:", message);\n}\n\nshowMessage("Ready");`
+      };
+      inputCode.value = samples[activeLanguage];
+      resetOutput();
+      updateInputState();
+      hideErrorBanner();
+      statusMessage.textContent = 'Sample loaded. Review the source, then optimize locally.';
+      statusMessage.className = 'min-h-5 text-center text-sm text-slate-300';
+      setToast('Sample loaded');
+    }
+
+    document.querySelectorAll('.asset-tab').forEach((tab) => {
+      tab.addEventListener('click', () => {
+        activeLanguage = tab.dataset.language;
+        document.querySelectorAll('.asset-tab').forEach((item) => {
+          const isActive = item === tab;
+          item.className = isActive ? 'asset-tab bg-emerald-700 px-4 py-2 text-sm font-semibold text-white' : 'asset-tab px-4 py-2 text-sm font-semibold text-slate-400 transition hover:text-white';
+          item.setAttribute('aria-selected', String(isActive));
+        });
+        document.getElementById('source-type').textContent = activeLanguage;
+        resetOutput();
+        hideErrorBanner();
+        statusMessage.textContent = `${activeLanguage} mode selected.`;
+        statusMessage.className = 'min-h-5 text-center text-sm text-slate-400';
+      });
+    });
+
+    inputCode.addEventListener('input', () => {
+      updateInputState();
+      resetOutput();
+      hideErrorBanner();
+      statusMessage.textContent = '';
+      setToast('');
+    });
+
+    document.getElementById('btn-sample').addEventListener('click', loadSample);
+    optimizeButton.addEventListener('click', optimizeAsset);
+    document.getElementById('select-views').addEventListener('change', () => {
+      if (inputCode.value.trim()) optimizeAsset();
+    });
+
+    document.getElementById('file-input').addEventListener('change', (event) => {
+      const file = event.target.files[0];
+      if (!file) return;
+      const extension = file.name.split('.').pop().toLowerCase();
+      if (['css'].includes(extension)) activeLanguage = 'CSS';
+      else if (['js', 'mjs'].includes(extension)) activeLanguage = 'JS';
+      else activeLanguage = 'HTML';
+      const matchingTab = [...document.querySelectorAll('.asset-tab')].find((tab) => tab.dataset.language === activeLanguage);
+      if (matchingTab) matchingTab.click();
+      const reader = new FileReader();
+      reader.addEventListener('load', () => {
+        inputCode.value = String(reader.result);
+        resetOutput();
+        updateInputState();
+        hideErrorBanner();
+        statusMessage.textContent = `${file.name} loaded for local processing.`;
+        statusMessage.className = 'min-h-5 text-center text-sm text-slate-300';
+        setToast('File loaded');
+      });
+      reader.readAsText(file);
+    });
+
+    copyButton.addEventListener('click', async () => {
+      try {
+
+
+
+        await navigator.clipboard.writeText(outputCode.value);
+      } catch (error) {
+        outputCode.select();
+        document.execCommand('copy');
+        outputCode.setSelectionRange(0, 0);
+      }
+      const originalLabel = copyButton.textContent;
+      copyButton.textContent = 'Copied!';
+      setToast('Copied to clipboard', 'success');
+      window.setTimeout(() => { copyButton.textContent = originalLabel; }, 1600);
+    });
+
+    downloadButton.addEventListener('click', () => {
+      const extension = activeLanguage === 'HTML' ? 'html' : activeLanguage === 'CSS' ? 'css' : 'js';
+      const blob = new Blob([lastOutput], { type: 'text/plain;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `app.min.${extension}`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+      setToast('Download started', 'success');
+    });
+
+    updateInputState();
+  </script>
+</body>
+</html>
