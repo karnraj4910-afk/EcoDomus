@@ -3,10 +3,6 @@
 **EcoDomus** is a simple, fast web tool that shrinks your website files (HTML, CSS, JavaScript) to make them load faster while saving energy and reducing carbon emissions.
 
 Everything runs 100% inside your browser—no data is sent to any server, and no setup is required.
-
----
-### Link- https://karnraj4910-afk.github.io/EcoDomus/
-
 ---
 ### What It Does
 
@@ -25,7 +21,7 @@ Everything runs 100% inside your browser—no data is sent to any server, and no
 
 ###  How to Use It
 
-1. Open `index.html` in any web browser.
+1. Open "https://karnraj4910-afk.github.io/EcoDomus/" in any web browser.
 2. Select the tab matching your code (**HTML**, **CSS**, or **JavaScript**).
 3. Paste your raw code into the editor (or click **Load Sample Code**).
 4. Click **OPTIMIZE ASSET**.
